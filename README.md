@@ -1,2 +1,3 @@
 # AstroPiCloudCoverage
-Developing a program to detect cloud coverage from the astropi as the ISS does 2 orbits around the Earth
+Developing a program to detect cloud coverage from the astropi as the 
+ISS does two orbits around the Earth (3 hours)
