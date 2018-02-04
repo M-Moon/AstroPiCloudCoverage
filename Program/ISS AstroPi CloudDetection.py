@@ -18,3 +18,43 @@ Earth is lit up, along with around the edges, the edges will appear comparativel
 dark to the system; therefore, allowing the picture to be used as valid data.
 
 """
+
+from scipy import misc
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+#print(type(f), f.shape, f.dtype)
+
+def read_image(image):
+  f = misc.imread('testimages/{}'.format(image))
+  return f
+
+def show_image(image):
+  plt.imshow(image)
+  plt.show()
+
+def choose_image(count):
+  image = os.listdir('testimages/')[count]
+  return image
+
+def gray_image(image): #not working
+  image = image.face(gray=True)
+  return image
+
+def circle_center(image): #not working
+  face = misc.face(gray=True)
+  lx, ly = face.shape
+  X, Y = np.ogrid[0:lx,0:ly]
+
+  mask = (X - lx / 2) ** 2 + (Y - ly / 2) ** 2 > lx * ly / 4
+  face[mask] = 0
+
+  return image[range(400), range(400)] == 255
+
+img = choose_image(0)
+img = read_image(img)
+#img = gray_image(img)
+#img = circle_center(img)
+show_image(img)
+
