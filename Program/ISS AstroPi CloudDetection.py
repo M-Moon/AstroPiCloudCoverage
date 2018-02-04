@@ -38,23 +38,29 @@ def choose_image(count):
   image = os.listdir('testimages/')[count]
   return image
 
-def gray_image(image): #not working
-  image = image.face(gray=True)
-  return image
+def gray_image(im, weights = np.c_[0.2989, 0.5870, 0.1140]): #not working
+  """
+    Transforms a colour image to a greyscale image by
+    taking the mean of the RGB values, weighted
+    by the matrix weights
+    """
+  tile = np.tile(weights, reps=(im.shape[0],im.shape[1],1))
+  return np.sum(tile * im, axis=2)
 
-def circle_center(image): #not working
-  face = misc.face(gray=True)
-  lx, ly = face.shape
+def circle_center(image):
+  lx, ly = image.shape[:-1]
   X, Y = np.ogrid[0:lx,0:ly]
 
-  mask = (X - lx / 2) ** 2 + (Y - ly / 2) ** 2 > lx * ly / 4
-  face[mask] = 0
+  mask = (X - lx / 2) ** 2 + (Y - ly / 2) ** 2 > lx * ly / 5
+  
+  image[mask] = 0
 
-  return image[range(400), range(400)] == 255
+  image[range(400), range(400)] = 255
+  return image
 
 img = choose_image(0)
 img = read_image(img)
 #img = gray_image(img)
-#img = circle_center(img)
+img = circle_center(img)
 show_image(img)
 
