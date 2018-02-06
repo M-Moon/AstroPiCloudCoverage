@@ -112,6 +112,6 @@ def main():
       cloudPercent = count_cloud(img)
       print(int(cloudPercent), "%", os.listdir('testimages/')[i])
 
-  show_image(img)
+  #show_image(img)
 
 main()
