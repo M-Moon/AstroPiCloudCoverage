@@ -121,6 +121,8 @@ def main():
   
   while True:
 
+    time.sleep(9)
+
     img = choose_image(i)
     img = read_image(img)
     img = gray_image(img)
@@ -128,7 +130,7 @@ def main():
       img = circle_center(img)
       cloudPercent = count_cloud(img)
       with open('dataset.txt', 'a') as file:
-        file.write(datetime.date + '\n' + '{}%'.format(cloudPercent) + '\n')
+        file.write(str(datetime.datetime.now())[:16] + '\n' + '{0:.{1}f}%'.format(cloudPercent, 1) + '\n')
 
   #show_image(img)
 

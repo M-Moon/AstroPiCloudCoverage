@@ -55,11 +55,17 @@ def validate_image(image):
   return True
 
 def average_colour(img, _mask = None):
+  maximum = 255
   if _mask is None:
-    print("Meh")
+      mean = img.mean()
+      darkestColour = np.min(img)
   else:
-    maskedImg = np.ma.array(img, mask = _mask)
-    return maskedImg.mean()
+      maskedImg = np.ma.array(img, mask = _mask)
+      mean = maskedImg.mean()
+      darkestColour = np.min(maskedImg)
+  # Linear Interpolation of mean, bounded between the darkest colour and pure white
+  normalisedMean = (mean - darkestColour) / (maximum - darkestColour)
+  return normalisedMean
 
 def gray_image(im, weights = np.c_[0.2989, 0.587, 0.114]): #not working
   """
@@ -110,7 +116,7 @@ def main():
     if validate_image(img):
       img = circle_center(img)
       cloudPercent = count_cloud(img)
-      print(int(cloudPercent), "%", os.listdir('testimages/')[i])
+      print('{0:.{1}f}%'.format(cloudPercent, 1), os.listdir('testimages/')[i])
 
   #show_image(img)
 
