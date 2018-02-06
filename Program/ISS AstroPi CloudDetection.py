@@ -31,14 +31,27 @@ def read_image(image):
   return f
 
 def show_image(image):
+  if len(image.shape) == 3:
+    show_image_rgb(image)
+  else:
+    show_image_gray(image)
+
+def show_image_rgb(image):
   plt.imshow(image)
+  plt.show()
+
+def show_image_gray(image):
+  plt.imshow(image, cmap= plt.cm.Greys_r)
   plt.show()
 
 def choose_image(count):
   image = os.listdir('testimages/')[count]
   return image
 
-def gray_image(im, weights = np.c_[0.2989, 0.5870, 0.1140]): #not working
+def validate_image(image):
+  pass
+
+def gray_image(im, weights = np.c_[0.2989, 0.587, 0.114]): #not working
   """
     Transforms a colour image to a greyscale image by
     taking the mean of the RGB values, weighted
@@ -55,12 +68,17 @@ def circle_center(image):
   
   image[mask] = 0
 
-  image[range(400), range(400)] = 255
   return image
 
-img = choose_image(0)
-img = read_image(img)
-#img = gray_image(img)
-img = circle_center(img)
-show_image(img)
+def main():
+  #for i in len(os.listdir('testimages/')):
 
+  img = choose_image(0)
+  img = read_image(img)
+  #img = circle_center(img)
+  img = gray_image(img)
+  img[range(480), 120] = 255
+  img[range(480), 500] = 255
+  show_image(img)
+
+main()

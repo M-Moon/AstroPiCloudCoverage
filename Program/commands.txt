@@ -1,0 +1,1 @@
+sudo pip3 install scipy numpy matplotlib pillow
