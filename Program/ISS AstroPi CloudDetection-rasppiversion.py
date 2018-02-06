@@ -121,7 +121,9 @@ def main():
   
   while True:
 
-    time.sleep(9)
+    sleep(9)
+
+    take_picture()
 
     img = choose_image(i)
     img = read_image(img)
