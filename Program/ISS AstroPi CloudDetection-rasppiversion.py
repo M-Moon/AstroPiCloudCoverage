@@ -130,7 +130,7 @@ def main():
       img = circle_center(img)
       cloudPercent = count_cloud(img)
       with open('dataset.txt', 'a') as file:
-        file.write(str(datetime.datetime.now())[:16] + '\n' + '{0:.{1}f}%'.format(cloudPercent, 1) + '\n')
+        file.write(str(datetime.datetime.now())[:19] + '\n' + '{0:.{1}f}%'.format(cloudPercent, 1) + '\n')
 
   #show_image(img)
 
