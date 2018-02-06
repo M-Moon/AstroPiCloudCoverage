@@ -49,7 +49,17 @@ def choose_image(count):
   return image
 
 def validate_image(image):
-  pass
+  mask = circle_outer(image)
+  if average_colour(image, mask) > 100:
+    return False
+  return True
+
+def average_colour(img, _mask = None):
+  if _mask is None:
+    print("Meh")
+  else:
+    maskedImg = np.ma.array(img, mask = _mask)
+    return maskedImg.mean()
 
 def gray_image(im, weights = np.c_[0.2989, 0.587, 0.114]): #not working
   """
@@ -61,7 +71,7 @@ def gray_image(im, weights = np.c_[0.2989, 0.587, 0.114]): #not working
   return np.sum(tile * im, axis=2)
 
 def circle_center(image):
-  lx, ly = image.shape[:-1]
+  lx, ly = image.shape
   X, Y = np.ogrid[0:lx,0:ly]
 
   mask = (X - lx / 2) ** 2 + (Y - ly / 2) ** 2 > lx * ly / 5
@@ -70,15 +80,38 @@ def circle_center(image):
 
   return image
 
-def main():
-  #for i in len(os.listdir('testimages/')):
+def circle_outer(image):
+  lx, ly = image.shape
+  X, Y = np.ogrid[0:lx,0:ly]
 
-  img = choose_image(0)
-  img = read_image(img)
-  #img = circle_center(img)
-  img = gray_image(img)
-  img[range(480), 120] = 255
-  img[range(480), 500] = 255
+  mask = (X - lx / 2) ** 2 + (Y - ly / 2) ** 2 < lx * ly / 3
+  
+  return mask
+
+def count_cloud(image):
+  total, largest, goodPix = 0, 1, 0
+  for x in range(640):
+    for y in range(480):
+      total += image[y][x]
+      if int(image[y][x]) != 0:
+        goodPix += 1
+
+      if image[y][x] != 0 and image[y][x] > largest:
+        largest = float(image[y][x])
+
+  return ((total/goodPix)/255) * 100
+
+def main():
+  for i in range(len(os.listdir('testimages/'))):
+
+    img = choose_image(i)
+    img = read_image(img)
+    img = gray_image(img)
+    if validate_image(img):
+      img = circle_center(img)
+      cloudPercent = count_cloud(img)
+      print(int(cloudPercent), "%", os.listdir('testimages/')[i])
+
   show_image(img)
 
 main()
