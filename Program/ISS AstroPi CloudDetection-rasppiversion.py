@@ -25,6 +25,7 @@ import numpy as np
 import os
 from picamera import PiCamera
 from time import sleep
+import datetime
 
 #print(type(f), f.shape, f.dtype)
 
@@ -117,8 +118,6 @@ def count_cloud(image):
   return ((total/goodPix)/255) * 100
 
 def main():
-
-  file = open('dataset.txt', 'w')
   
   while True:
 
@@ -128,7 +127,8 @@ def main():
     if validate_image(img):
       img = circle_center(img)
       cloudPercent = count_cloud(img)
-      print(int(cloudPercent), "%", os.listdir('testimages/')[i])
+      with open('dataset.txt', 'a') as file:
+        file.write(datetime.date + '\n' + '{}%'.format(cloudPercent) + '\n')
 
   #show_image(img)
 
