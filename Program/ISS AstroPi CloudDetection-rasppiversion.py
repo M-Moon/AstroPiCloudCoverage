@@ -64,7 +64,7 @@ def validate_image(image):
     return False
   return True
 
-def averageColour(img, _mask = None):
+def average_colour(img, _mask = None):
   maximum = 255
   if _mask is None:
       mean = img.mean()
